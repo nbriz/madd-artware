@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MADD Artware</title>
+    <meta name="description" content="Experimental online drawing application by Media Art and Design students at the University of Chicago">
+
+    <!-- social media stuff -->
+    <meta property="og:title" content="paintArtware">
+    <meta property="og:description" content="Experimental online drawing application by Media Art and Design students at the University of Chicago">
+    <meta property="og:image" content="images/app-icon.png">
+
+    <link rel="icon" type="image/png" href="images/app-icon.png">
+    <link rel="stylesheet" href="css/styles.css">
+
+  </head>
+  <body>
+
+    <div id="loader">
+      <span>loading </span>
+    </div>
+
+    <section id="paint-app">
+      <header>
+        <div>
+          <img src="images/app-icon.png" alt="paintArtware icon">
+        </div>
+        <h3>untitled - artware</h3>
+      </header>
+      <nav id="main-menu">
+        <!-- menu items goe here -->
+      </nav>
+      <main>
+        <section id="tool-bar">
+          <!-- brushes goe here -->
+        </section>
+        <section id="draw-area">
+          <!-- canvas goes here -->
+        </section>
+        <section id="code-menu">
+          <div id="code-new-tool">
+            <input type="checkbox" id="show-editor" checked> Show Code Editor <br>
+            <select id="code-type-select" style="width: 90%;">
+              <option value="tool">create a new tool</option>
+              <option value="filter">create a new filter</option>
+            </select>
+            <div id="icon-opts">
+              <input type="checkbox" id="tool-click-only"> run on click
+              <div style="display: flex; align-items: center; margin: 10px 0">
+                <img src="" alt="" id="icon-button">
+                <button id="open-icon-maker">Open Icon Maker</button>
+              </div>
+            </div>
+            <div id="filt-opts">
+              <button id="apply-filter">Apply Filter</button>
+            </div>
+            <br>
+            <input type="text" id="code-file-name" style="width: 90%; padding: 4px 8px;">
+            <br>
+            <button id="download-code">Download Code</button>
+          </div>
+        </section>
+      </main>
+      <section id="tool-options">
+        <div class="old-sch-clr">
+          <div class="old-sch-clr__styles">
+            <div class="old-sch-clr__fillStyle"></div>
+            <div class="old-sch-clr__strokeStyle"></div>
+          </div>
+          <div class="old-sch-clr__swatches">
+            <!-- color swatches goes here -->
+          </div>
+        </div>
+      </section>
+      <section id="tool-info"><a href="https://netnet.studio" target="_blank" id="nn-link">(◕ ◞ ◕)</a> Welcome!</section>
+    </section>
+
+    <script src="js/nn.min.js"></script>
+    <script src="js/netitor.min.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/blankIcon.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

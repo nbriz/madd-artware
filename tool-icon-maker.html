@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Tool Icon Creator</title>
+    <style media="screen">
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        background-color: #bcbcbc;
+        font-family: sans-serif;
+        overflow: hidden;
+      }
+
+      .center-flex {
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      #icon-canvas {
+        outline: 4px inset black;
+        margin: 10px;
+      }
+
+      #size {
+        width: 100px;
+        margin-right: 10px;
+      }
+
+      #custom-cursor {
+        width: 8px;
+        height: 8px;
+        border: 1px solid black;
+        position: absolute;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+
+    <canvas id="icon-canvas" width="300" height="300"></canvas>
+    <div id="custom-cursor"></div>
+
+    <div class="center-flex">
+      <input type="color" id="color" value="#000">
+      <span style="margin-left: 10px;">size:</span> <input type="range" min="8" max="64" step="8" id="size">
+      erase: <input type="checkbox" id="erase">
+    </div>
+
+    <script src="js/nn.min.js"></script>
+    <script>
+
+      const ictx = nn.get('#icon-canvas').getContext('2d')
+      let ictxMouseDown = false
+      let color = '#000'
+      let size = 8
+      let erase = false
+
+      function setToolIcon (base64) {
+        const img = new Image()
+        img.onload = function () {
+          const canvas = nn.get('#icon-canvas')
+          ictx.imageSmoothingEnabled = false
+          ictx.clearRect(0, 0, canvas.width, canvas.height)
+          ictx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        }
+        img.src = base64
+      }
+
+      function mouseMove (e) {
+        const x = Math.floor((e.x - nn.get('#icon-canvas').x) / size) * size
+        const y = Math.floor((e.y - nn.get('#icon-canvas').y) / size) * size
+        const cx = nn.get('#icon-canvas').left
+        const cy = nn.get('#icon-canvas').top
+        const cw = nn.get('#icon-canvas').width
+        const ch = nn.get('#icon-canvas').height
+        nn.get('#custom-cursor').css({
+          left: nn.clamp(cx + x, cx, cx + cw),
+          top: nn.clamp(cy + y, cy, cy + ch),
+          width: size,
+          height: size
+        })
+
+        if (!ictxMouseDown) return
+
+        if (erase) ictx.clearRect(x, y, size, size)
+        else ictx.fillRect(x, y, size, size)
+        // send icon to main window
+        const base64 = nn.get('#icon-canvas').toDataURL('image/png')
+        window.opener.postMessage({ type: 'new-icon', data: base64 }, '*')
+      }
+
+      function handleMessage (e) {
+        const d = e.data
+        if (d.type === 'init') setToolIcon(d.data)
+        console.log('Got message in popup:', d)
+        // setToolIcon('images/pencil-icon2.png')
+      }
+
+      // ------------------------------ EVENTS ---------------------------------
+      nn.get('#icon-canvas').on('mousemove', (e) => mouseMove(e))
+
+      nn.get('#color').on('change', (e) => { color = e.target.value })
+
+      nn.get('#size').on('change', (e) => { size = Number(e.target.value); console.log(size) })
+
+      nn.get('#erase').on('change', (e) => { erase = e.target.checked })
+
+      nn.on('mousedown', (e) => {
+        ictx.fillStyle = color
+        ictxMouseDown = true
+        mouseMove(e)
+      })
+
+      nn.on('mouseup', () => { ictxMouseDown = false })
+
+      nn.on('message', e => handleMessage(e))
+
+      nn.on('load', () => {
+        nn.get('#color').value = color
+        nn.get('#size').value = size
+        nn.get('#erase').checked = erase
+        window.opener.postMessage({ type: 'ready' }, '*')
+        nn.get('#custom-cursor').css({
+          left: nn.get('#icon-canvas').left,
+          top: nn.get('#icon-canvas').top
+        })
+      })
+
+    </script>
+  </body>
+</html>
