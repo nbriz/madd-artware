@@ -1,0 +1,125 @@
+
+.hljs {
+  color: #cfcbc4;              /* text */
+  background: #232327;         /* background */
+}
+
+/* COMMENTS & QUOTES */
+.hljs-comment,
+.hljs-quote {
+  color: #8c857e;              /* comment */
+}
+
+/* META */
+.hljs-meta {
+  color: #a0a0a3;              /* meta */
+}
+
+/* TAGS */
+.hljs-tag,
+.hljs-tag .hljs-name {
+  color: #75bfff;              /* tag */
+}
+
+/* TAG BRACKETS & PUNCTUTION */
+.hljs-punctuation {
+  color: #a0a0a3;              /* tag_bracket */
+}
+
+/* ATTRIBUTES */
+.hljs-attribute {
+  color: #ff7de9;              /* attribute */
+}
+
+/* QUALIFIERS (e.g. selectors, IDs, classes) */
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #ff7de9;              /* qualifier */
+}
+
+/* VARIABLES */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-variable.language_ {
+  color: #b98eff;              /* variable, variable_2, variable_callee */
+}
+/* VARIABLE_3 (e.g. constants) */
+.hljs-variable.constant {
+  color: #a0a0a3;              /* variable_3 */
+}
+
+/* DEFINITIONS (classes/functions) */
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.function_ {
+  color: #75bfff;              /* def */
+}
+
+/* BUILT‑INS */
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #ff7de9;              /* builtin */
+}
+
+/* PROPERTIES */
+.hljs-property {
+  color: #86de74;              /* property */
+}
+
+/* KEYWORDS */
+.hljs-keyword {
+  color: #ff7de9;              /* keyword */
+}
+
+/* STRINGS */
+.hljs-string {
+  color: #b98eff;              /* string */
+}
+/* REGEXP or alternate string */
+.hljs-regexp {
+  color: #b98eff;              /* string_2 */
+}
+
+/* NUMBERS */
+.hljs-number {
+  color: #75bfff;              /* number */
+}
+
+/* ATOMS / LITERALS */
+.hljs-literal {
+  color: #a0a0a3;              /* atom */
+}
+
+/* OPERATORS */
+.hljs-operator {
+  color: #cfcbc4;              /* operator */
+}
+
+/* ====== PLUGIN SUPPORT ====== */
+
+/* Line numbers plugin */
+.hljs-line-numbers .hljs-line-number {
+  color: #88888a;              /* line_numbers */
+}
+.hljs-line-numbers .hljs-line-number.hljs-active-line {
+  background-color: #a0a0a3;   /* active_line_bg */
+}
+
+/* Text selection inside code blocks */
+.hljs ::selection {
+  background-color: #c8c8fa19; /* selected */
+}
+
+/* Matching bracket/plugin */
+.hljs-match {
+  color: #cfcbc4;              /* match_color */
+  border: 1px solid #8c857e;   /* match_border */
+}
+
+/* Autocomplete/hint menu plugin */
+.hljs-hint {
+  color: #232327;              /* hint_color */
+  background-color: #75bfff;   /* hint_bg */
+  box-shadow: 0 0 5px #8c857eBF;/* hint_shadow */
+}

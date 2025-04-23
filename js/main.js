@@ -1,10 +1,11 @@
 /* global nn, Canvas, Netitor */
 var canvas, ne, iconmaker
-window.menu = { File: {}, Filter: {}, About: {}, Code: {} }
+window.menu = { File: {}, Filter: {}, Learn: {}, Code: {} }
 
 const modules = {
   filefuncs: ['new', 'open', 'save', 'restart'],
   filters: ['invert'],
+  learn: ['artware', 'docs'],
   tools: ['fill', 'pencil'],
   codefuncs: ['new-file', 'load-code']
 }
@@ -23,6 +24,29 @@ const state = {
 // ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~
 // ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _       FUNCTIONS
 // ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~
+
+// for use in the student code...
+window.rgba = function (r = 0, g = 0, b = 0, a = 1) {
+  return `rgba(${r}, ${g}, ${b}, ${a})`
+}
+
+window.hsla = function (h = 0, s = 100, l = 50, a = 1) {
+  return `hsla(${h}, ${s}%, ${l}%, ${a})`
+}
+
+window.log = function (...args) {
+  netitorReset()
+  const nnlnk = '<a href="https://netnet.studio" target="_blank" id="nn-link">(◠ . ◠)</a> ⮕ '
+  const output = args
+    .map(arg => typeof arg === 'object'
+      ? JSON.stringify(arg)
+      : String(arg))
+    .join(', ')
+  nn.get('#tool-info').content(nnlnk + output).css('color', 'black')
+  if (nn.get('#editor').style.display === 'block') ne.spotlight('clear')
+}
+
+// .....................
 
 function loading (type, name) {
   state.loaded++
@@ -148,7 +172,7 @@ function openIconMaker () {
 
 function netitorReset () {
   const nnlnk = '<a href="https://netnet.studio" target="_blank" id="nn-link">(◕ ◞ ◕)</a>'
-  nn.get('#tool-info').content(nnlnk)
+  nn.get('#tool-info').content(nnlnk).css('color', 'black')
   if (nn.get('#editor').style.display === 'block') ne.spotlight('clear')
 }
 
@@ -167,7 +191,16 @@ function markErrors (eve) {
   ne.marker(null)
   const lines = []
   if (eve.length === 0) netitorReset()
-  eve.forEach(e => {
+  eve.filter(e => {
+    // filter out specific errors
+    const skip = [
+      "'canvas' is not defined.",
+      "'log' is not defined.",
+      "'rgba' is not defined.",
+      "'hsla' is not defined."
+    ]
+    if (!skip.includes(e.message)) return e
+  }).forEach(e => {
     if (lines.includes(e.line)) return
     lines.push(e.line)
 
@@ -287,10 +320,11 @@ function setupCodeMenu (display, data) {
     ele: '#editor',
     background: false,
     language: 'javascript',
-    autoUpdate: false
+    autoUpdate: false,
+    hint: false
   })
 
-  ne.on('code-update', () => { state.userCode = ne.code })
+  ne.on('code-update', () => { state.toolCode = state.userCode = ne.code })
   ne.on('lint-error', (e) => markErrors(e))
   ne.on('cursor-activity', netitorReset)
 
@@ -306,6 +340,7 @@ function setupCodeMenu (display, data) {
   } else {
     nn.get('#code-file-name').value = ''
     // TODO: loade template ne.code = ...
+    // ne.code = '/* global canvas */'
     updateCodeView()
   }
 
@@ -423,6 +458,7 @@ async function setup () {
   })
 
   resizeAreas()
+  setTimeout(resizeAreas, 500)
 }
 
 nn.on('load', setup)
@@ -431,4 +467,7 @@ nn.on('beforeunload', function (e) {
   e.preventDefault()
   e.returnValue = ''
   if (iconmaker) iconmaker.close()
+  if (window.about) window.about.close()
+  if (window.docs) window.docs.close()
+  if (window.colors) window.colors.close()
 })

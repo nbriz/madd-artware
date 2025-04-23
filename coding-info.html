@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Coding Reference</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <style media="screen">
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        background-color: #bcbcbc;
+        font-family: sans-serif;
+      }
+
+      .content {
+        max-width: 680px;
+        padding: 20px;
+        margin: 0 auto;
+      }
+
+      blockquote {
+        margin: 0;
+        padding: 20px;
+        border: 4px inset #747b7a;
+        border-width: 4px;
+        background-image:
+          linear-gradient(45deg, #ccc 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #ccc 75%),
+          linear-gradient(45deg, transparent 75%, #ccc 75%),
+          linear-gradient(45deg, #ccc 25%, #fff 25%);
+        background-size:10px 10px;
+        background-position:0 0, 0 0, -5px -5px, 5px 5px;
+      }
+
+      blockquote p {
+        background: #bdbdbcdd;
+        padding: 12px;
+        border: 2px solid #bcbcbc;
+        border-top: 2px solid white;
+        border-bottom: 2px solid black;
+        font-style: italic;
+        font-family: monospace
+      }
+
+      blockquote cite {
+        font-weight: bold;
+      }
+
+      a, a:visited {
+        color: blue;
+      }
+
+      p, li {
+        line-height: 1.4em;
+      }
+
+      ul code,
+      p > code {
+        color: #232327;
+        padding: 2px 7px;
+        border-radius: 4px;
+        border: 1px solid #232327;
+      }
+
+      .language-js:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="content">
+      <h1>Coding Reference</h1>
+
+      <p>
+        Our goal for this project is to peal the curtain and explore the code behind the visual interfaces of the apps we use everyday. When we use software created by someone else to create art with computers we are, consciously or not, being influenced (and in some cases limited) by the ideas of the creator of that software. This is why many media artists choose to create their own software by writing code. Sometimes they do this in order to develop their own creative tools/instruments, other times the code and software itself <i>is</i> the artwork.
+      </p>
+
+      <p>
+        This "artware.app" is designed to be a beginner friendly way to learn to create "software art" collaboratively. We will each create a "tool" for drawing onto the canvas and/or a "filter" for modifying it. There are loads of prgramming languages out there we can use to code an app, because we're going to be creating a "web app" (an app you can access on any device via a web browser) we'll use the web's defacto programming language: <a href="https://eloquentjavascript.net/" target="_blank">JavaScript</a>
+      </p>
+
+      <p>
+        While the "syntax" (the specific characters and symbols used to express programming concepts) vary slightly from langauge to langauge, all programming languages ultimately revolve around the same core concepts:
+      </p>
+
+      <ul>
+        <li>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#variables" target="_blank">variables:</a> these are names given to containers of data. We can store different types of data in a variable: numbers, texts (aka "strings"), boolean values (ie. true or false) and any combination of these. If a program is like a recipe, then variables would be the ingredients
+        </li><br>
+        <li>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#conditional_statements" target="_blank">conditional statements:</a> recipes don't just have ingredients, they also contain instructions. In code our instructions always run from top to bottom, that's the default "flow", but there are ways we can alter and control that flow, starting with conditional statements. These are true and false questions we can ask, <code>if</code> the answer is "true" then we run the code inside the <code>{ }</code> "conditional block", if it is "false" then we skip over those instructions
+        </li><br>
+        <li>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration" target="_blank">loops</a>: another way we can control the flow of our code instructions is by using loops, specificaly <code>for</code> loops and <code>while</code>, the syntax for these looks very similar to that of conditional statements, but the way it modifies the flow is different. This time, the code inside the block <code>{ }</code> will run over, and over, and over again until the question being asked is no longer true.
+        </li><br>
+        <li>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions" target="_blank">functions</a>: there are times when we have a few instructions (a few lines of code) which act like their own mini-program which would be adventageous to use many times at different points in our "recipe." In these instances, rather than repeating that code over and over again in different places, we can package it up in a function, like a "bake" function for example, which we can reuse throughout our recipe, each time modifying the parameters like <code>bakeFor(20, 'mins')</code>. Here the parameters are the amount of time and the units, the values we "pass into" a function like this are called "arguments"
+        </li>
+      </ul>
+
+      <p>
+        Let's look at these concepts in context. Below are some starter examples for creating our own "tools" and "filters" in this artware app using JavaScript.
+      </p>
+
+      <br><br>
+      <h3>Creating a Tool</h3>
+
+      <p>
+        In the context of this app, a "tool" is code that will leave a mark on the canvas, this could be a tiny mark, like a small lines created by the pencil tool, or a large mark like filling up the entire canvas with the paint bucket tool. Below is a basic example, you can click the code to copy it and then paste it in the code editor.
+      </p>
+
+<pre><code class="language-js">
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let size = 20
+  canvas.circle(x, y, size)
+</code></pre>
+
+      <p>
+        The code above makes use of two of the core concepts linked above <b>variables</b> and <b>functions</b>. We've created 3 of our own variables <code>x</code>, <code>y</code> and <code>size</code>. The last one was a assigned a very specific number, 20, but the first two are using special variables that is built into our "canvas" called "mouseX" and "mouseY." When we have variables like these attached to another varialbe using a <code>.</code>, we call the first part an "object" (in this case "canvas") and the second part it's "properties" (in this case "mouseX" and "mouseY").
+      </p>
+
+      <p>
+        Our <code>canvas</code> object represents the entire drawing surface of our app, it's <code>canvas.mouseX</code> and <code>canvas.mouseY</code> properties contain numbers representing the position of the mouse at any given time, relative to the top/left corner of the canvas. It also contains other properites like <code>canvas.width</code> and <code>canvas.height</code>, these will also update automatically if/when the canvas size changes (if the user changes their window size for example).
+      </p>
+
+      <p>
+        Our canvas object also contains it's own "functions" (also known as "methods") which contain instrutions inside of them. In the example above we're using the <code>canvas.circle()</code> method to draw a circle to the canvas. There are a number of other methods for drawing other shapes as well.
+      </p>
+
+      <br>
+      <h3>Other Shape Functions</h3>
+
+      <p>
+        <code>canvas.circle(x, y, r)</code> draws a circle to the canvas where "x" and "y" represet the position of the circle on the canvas relative to it's center, and "r" represents the circles radius (distance from it's center to it's edge).
+      </p>
+
+      <pre><code class="language-js">canvas.circle(60, 60, 50)</code></pre><br>
+
+      <p>
+        <code>canvas.ellipse(x, y, rx, ry)</code> draws an ellipse to the canvas where "x" and "y" represent the center position of the ellipse, "rx" is the horizontal radius, and "ry" is the vertical radius.
+      </p>
+
+      <pre><code class="language-js">canvas.ellipse(160, 60, 20, 40)</code></pre><br>
+
+      <p>
+        <code>canvas.rect(x, y, width, height)</code> draws a rectangle to the canvas where "x" and "y" represent the top-left corner of the rectangle, and "width" and "height" define its size.
+      </p>
+
+      <pre><code class="language-js">canvas.rect(220, 10, 100, 100)</code></pre><br>
+
+      <p>
+        <code>canvas.triangle(x1, y1, x2, y2, x3, y3)</code> draws a filled triangle connecting three points (x1, y1), (x2, y2), and (x3, y3).
+      </p>
+
+      <pre><code class="language-js">canvas.triangle(340, 10, 390, 60, 340, 110)</code></pre><br>
+
+      <p>
+        <code>canvas.line(x1, y1, x2, y2)</code> draws a straight line from point (x1, y1) to point (x2, y2).
+      </p>
+
+      <pre><code class="language-js">canvas.line(410, 10, 460, 110)</code></pre><br>
+
+
+
+
+<!--
+<h3>Canvas Code Documentation</h3>
+
+<p>
+  Below you'll find a list
+</p>
+
+<h2><code>resize(width, height)</code></h2>
+<p>Resizes the canvas to the given dimensions, preserving existing drawing content.</p>
+<pre><code class="language-js">canvas.resize(800, 600)</code></pre>
+
+<h2><code>width</code> (getter)</h2>
+<p>Returns the current width of the canvas.</p>
+<pre><code class="language-js">window.log(canvas.width)</code></pre>
+
+<h2><code>height</code> (getter)</h2>
+<p>Returns the current height of the canvas.</p>
+<pre><code class="language-js">window.log(canvas.height)</code></pre>
+
+<h2><code>fillColor</code> (get/set)</h2>
+<p>Gets or sets the fill style (CSS color) used for filled shapes.</p>
+<pre><code class="language-js">
+canvas.fillColor = 'lightblue'
+window.log(canvas.fillColor)
+</code></pre>
+
+<h2><code>strokeColor</code> (get/set)</h2>
+<p>Gets or sets the stroke style (CSS color) used for outlines.</p>
+<pre><code class="language-js">
+canvas.strokeColor = 'darkblue'
+window.log(canvas.strokeColor)
+</code></pre>
+
+<h2><code>getPixelData(x, y, w, h)</code></h2>
+<p>Returns the raw RGBA byte array for the specified rectangle. Defaults to the full canvas.</p>
+<pre><code class="language-js">
+const data = canvas.getPixelData(0, 0, 100, 100)
+window.log(data.length) // 100×100×4
+</code></pre>
+
+<h2><code>getPixels()</code></h2>
+<p>Returns an array of <code>{r, g, b, a}</code> objects for every pixel on the canvas.</p>
+<pre><code class="language-js">
+const pixels = canvas.getPixels()
+window.log(pixels[0]) // { r: ..., g: ..., b: ..., a: ... }
+</code></pre>
+
+<h2><code>setPixels(pixels, x, y, w, h)</code></h2>
+<p>Writes an array of <code>{r, g, b, a}</code> pixel objects back to the canvas in the given rectangle.</p>
+<pre><code class="language-js">
+const newPixels = pixels.map(p => ({ ...p, r: 255 }))
+canvas.setPixels(newPixels, 0, 0, 100, 100)
+</code></pre>
+
+<h2><code>ellipse(x, y, w, h)</code></h2>
+<p>Draws a filled and stroked ellipse at <code>(x,y)</code> with radius <code>w</code> (and <code>h</code> if provided).</p>
+<pre><code class="language-js">
+canvas.fillColor = 'pink'
+canvas.strokeColor = 'red'
+canvas.ellipse(150, 75, 50, 30)
+</code></pre>
+
+<h2><code>rect(x, y, w, h)</code></h2>
+<p>Draws a filled and stroked rectangle at <code>(x,y)</code> of size <code>w×h</code>.</p>
+<pre><code class="language-js">
+canvas.fillColor = 'yellow'
+canvas.strokeColor = 'orange'
+canvas.rect(20, 20, 100, 50)
+</code></pre>
+
+<h2><code>line(x1, y1, x2, y2)</code></h2>
+<p>Draws a stroked line from <code>(x1,y1)</code> to <code>(x2,y2)</code>.</p>
+<pre><code class="language-js">
+canvas.lineWidth = 2
+canvas.strokeColor = 'black'
+canvas.line(0, 0, 200, 200)
+</code></pre>
+
+<h2><code>triangle(x1, y1, x2, y2, x3, y3)</code></h2>
+<p>Draws a filled and stroked triangle connecting the three points.</p>
+<pre><code class="language-js">
+canvas.fillColor = 'lightgreen'
+canvas.strokeColor = 'green'
+canvas.triangle(50, 150, 100, 50, 150, 150)
+</code></pre>
+
+<h2><code>lineWidth</code> (get/set)</h2>
+<p>Gets or sets the width of lines and strokes.</p>
+<pre><code class="language-js">
+canvas.lineWidth = 5
+</code></pre>
+
+<h2><code>lineCap</code> (get/set)</h2>
+<p>Gets or sets the style of line endings: <code>'butt'</code>, <code>'round'</code> or <code>'square'</code>.</p>
+<pre><code class="language-js">
+canvas.lineCap = 'round'
+</code></pre>
+
+<h2><code>lineJoin</code> (get/set)</h2>
+<p>Gets or sets the style of corners where lines meet: <code>'bevel'</code>, <code>'round'</code> or <code>'miter'</code>.</p>
+<pre><code class="language-js">
+canvas.lineJoin = 'miter'
+</code></pre>
+
+<h2><code>font</code> (get/set)</h2>
+<p>Gets or sets the font used for text, e.g. <code>'16px sans-serif'</code>.</p>
+<pre><code class="language-js">
+canvas.font = '20px serif'
+</code></pre>
+
+<h2><code>textAlign</code> (get/set)</h2>
+<p>Gets or sets horizontal text alignment: <code>'left'</code>, <code>'center'</code>, <code>'right'</code>, etc.</p>
+<pre><code class="language-js">
+canvas.textAlign = 'center'
+</code></pre>
+
+<h2><code>textBaseline</code> (get/set)</h2>
+<p>Gets or sets vertical text baseline: <code>'top'</code>, <code>'middle'</code>, <code>'alphabetic'</code>, etc.</p>
+<pre><code class="language-js">
+canvas.textBaseline = 'middle'
+</code></pre>
+
+<h2><code>text(str, x, y, type)</code></h2>
+<p>Draws text at <code>(x,y)</code>. Use <code>type='fill'</code> (default) or <code>'stroke'</code>.</p>
+<pre><code class="language-js">
+canvas.fillColor = 'black'
+canvas.text('Hello World', 100, 100)
+canvas.text('Outlined', 100, 130, 'stroke')
+</code></pre>
+
+<h2><code>save()</code></h2>
+<p>Saves the current drawing state (styles, transforms, etc.).</p>
+<pre><code class="language-js">
+canvas.save()
+// ... do some drawing with different styles ...
+canvas.restore()
+</code></pre>
+
+<h2><code>restore()</code></h2>
+<p>Restores the last saved state.</p>
+<pre><code class="language-js">
+canvas.restore()
+</code></pre>
+
+<h2><code>scale(x, y)</code></h2>
+<p>Scales the drawing context by <code>(x,y)</code>.</p>
+<pre><code class="language-js">
+canvas.scale(2, 2) // everything drawn is twice as large
+</code></pre>
+
+<h2><code>rotate(angle)</code></h2>
+<p>Rotates the drawing context by <em>radians</em>, e.g. <code>Math.PI/4</code> is 45°.</p>
+<pre><code class="language-js">
+canvas.rotate(Math.PI / 4)
+</code></pre>
+
+<h2><code>translate(x, y)</code></h2>
+<p>Moves the origin of the drawing context by <code>(x,y)</code>.</p>
+<pre><code class="language-js">
+canvas.translate(50, 50)
+</code></pre>
+
+<h2><code>transform(m11, m12, m21, m22, dx, dy)</code></h2>
+<p>Multiplies the current transform by the given matrix.</p>
+<pre><code class="language-js">
+canvas.transform(1, 0.5, 0, 1, 0, 0)
+</code></pre>
+
+<h2><code>setTransform(m11, m12, m21, m22, dx, dy)</code></h2>
+<p>Replaces the current transform with the given matrix.</p>
+<pre><code class="language-js">
+canvas.setTransform(1, 0, 0, 1, 0, 0) // reset to identity
+</code></pre>
+
+<h2><code>blendMode</code> (get/set)</h2>
+<p>Gets or sets the global composite operation (blend mode), e.g. <code>'multiply'</code>, <code>'screen'</code>, etc.</p>
+<pre><code class="language-js">
+canvas.blendMode = 'multiply'
+</code></pre>
+-->
+
+    </div>
+    <script src="js/nn.min.js"></script>
+    <script>
+      hljs.highlightAll()
+
+      function enableCodeCopy () {
+        const blocks = nn.getAll('.language-js')  // get all code blocks :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}
+        for (let i = 0; i < blocks.length; i++) {
+          const block = blocks[i]
+          block.on('click', () => {                // attach click listener :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3}
+            const code = block.textContent
+            if (!navigator.clipboard) {
+              console.error('Clipboard API not supported in this browser')
+              return
+            }
+            navigator.clipboard.writeText(code)
+              .then(() => window.alert('Code copied to clipboard'))
+              .catch(err => console.error('Failed to copy code: ' + err))
+          })
+        }
+      }
+
+      // initialize on page load
+      nn.on('load', enableCodeCopy)
+
+
+    </script>
+  </body>
+</html>

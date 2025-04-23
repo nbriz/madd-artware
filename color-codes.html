@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Color Codes Generator</title>
+    <style media="screen">
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        background-color: #bcbcbc;
+        font-family: sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .center-flex {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      code {
+        border: 1px solid black;
+        border-radius: 3px;
+        padding: 6px 16px;
+        margin: 10px 10px;
+        cursor: pointer;
+        opacity: 0.5;
+      }
+
+      code:hover {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="center-flex">
+      <input type="color" id="color" value="#000">
+      <code id="hex">#00000</code>
+      <code id="rgba">rgba(0, 0, 0, 1)</code>
+      <code id="hsla">hsla(0, 100%, 0%, 1)</code>
+    </div>
+
+    <script src="js/nn.min.js"></script>
+    <script>
+
+    function setup () {
+      nn.get('input').on('input', (e) => {
+        nn.get('#hex').content(e.target.value)
+        const c1 = nn.hex2rgb(e.target.value)
+        nn.get('#rgba').content(`rgba(${c1.r}, ${c1.g}, ${c1.b}, 1)`)
+        const c2 = nn.hex2hsl(e.target.value)
+        nn.get('#hsla').content(`hsla(${c2.h}, ${c2.s}%, ${c2.l}%, 1)`)
+      })
+
+      nn.getAll('code').forEach(codeBlock => {
+        codeBlock.on('click', () => {
+          const code = `'${codeBlock.textContent}'`
+          if (!navigator.clipboard) {
+            console.error('Clipboard API not supported in this browser')
+            return
+          }
+          navigator.clipboard.writeText(code)
+            .then(() => window.alert('Code copied to clipboard'))
+            .catch(err => console.error('Failed to copy code: ' + err))
+        })
+      })
+    }
+
+    nn.on('load', setup)
+
+    </script>
+  </body>
+</html>
