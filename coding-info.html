@@ -23,6 +23,10 @@
         margin: 0 auto;
       }
 
+      h3 {
+        padding-top: 10px;
+      }
+
       blockquote {
         margin: 0;
         padding: 20px;
@@ -72,6 +76,18 @@
         opacity: 0.8;
       }
 
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      .flex > span {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
     </style>
   </head>
   <body>
@@ -82,6 +98,27 @@
       <p>
         Our goal for this project is to peal the curtain and explore the code behind the visual interfaces of the apps we use everyday. When we use software created by someone else to create art with computers we are, consciously or not, being influenced (and in some cases limited) by the ideas of the creator of that software. This is why many media artists choose to create their own software by writing code. Sometimes they do this in order to develop their own creative tools/instruments, other times the code and software itself <i>is</i> the artwork.
       </p>
+
+      <ul>
+        <li><a href="#programming-basics">Programming Basics</a></li>
+        <li><a href="#creating-a-tool">Creating a tool</a></li>
+        <ul>
+          <li><a href="#variables">variables</a></li>
+          <li><a href="#conditional-statements">conditional statements</a></li>
+          <li><a href="#functions">functions</a></li>
+        </ul>
+        <li><a href="#creating-a-filter">Creating a Filter</a></li>
+        <ul>
+          <li><a href="#while-loop">while loop</a></li>
+          <li><a href="#for-loop">for loop</a></li>
+        </ul>
+        <li><a href="#color">Color</a></li>
+        <li><a href="#shape-functions">Other Shape Functions</a></li>
+        <li><a href="#shape-properties">Shape Properties</a></li>
+      </ul>
+
+      <br><br>
+      <h3 id="prgramming-basics">Programming Basics, In JavaScript</h3>
 
       <p>
         This "artware.app" is designed to be a beginner friendly way to learn to create "software art" collaboratively. We will each create a "tool" for drawing onto the canvas and/or a "filter" for modifying it. There are loads of prgramming languages out there we can use to code an app, because we're going to be creating a "web app" (an app you can access on any device via a web browser) we'll use the web's defacto programming language: <a href="https://eloquentjavascript.net/" target="_blank">JavaScript</a>
@@ -107,22 +144,23 @@
       </ul>
 
       <p>
-        Let's look at these concepts in context. Below are some starter examples for creating our own "tools" and "filters" in this artware app using JavaScript.
+        Let's look at these concepts within the context of our artware. Below are some starter examples for creating our own "tools" and "filters" in this artware app using JavaScript.
       </p>
 
       <br><br>
-      <h3>Creating a Tool</h3>
+      <h3 id="creating-a-tool">Creating a Tool</h3>
 
       <p>
         In the context of this app, a "tool" is code that will leave a mark on the canvas, this could be a tiny mark, like a small lines created by the pencil tool, or a large mark like filling up the entire canvas with the paint bucket tool. Below is a basic example, you can click the code to copy it and then paste it in the code editor.
       </p>
 
-<pre><code class="language-js">
-  let x = canvas.mouseX
-  let y = canvas.mouseY
-  let size = 20
-  canvas.circle(x, y, size)
+<pre id="variables"><code class="language-js">let x = canvas.mouseX
+let y = canvas.mouseY
+let radius = 20
+canvas.circle(x, y, radius)
 </code></pre>
+
+      <img src="/images/g1.gif" alt="">
 
       <p>
         The code above makes use of two of the core concepts linked above <b>variables</b> and <b>functions</b>. We've created 3 of our own variables <code>x</code>, <code>y</code> and <code>size</code>. The last one was a assigned a very specific number, 20, but the first two are using special variables that is built into our "canvas" called "mouseX" and "mouseY." When we have variables like these attached to another varialbe using a <code>.</code>, we call the first part an "object" (in this case "canvas") and the second part it's "properties" (in this case "mouseX" and "mouseY").
@@ -133,11 +171,250 @@
       </p>
 
       <p>
-        Our canvas object also contains it's own "functions" (also known as "methods") which contain instrutions inside of them. In the example above we're using the <code>canvas.circle()</code> method to draw a circle to the canvas. There are a number of other methods for drawing other shapes as well.
+        Our canvas object also contains it's own "functions" (also known as "methods") which contain instrutions inside of them. In the example above we're using the <code>canvas.circle()</code> method to draw a circle to the canvas. There are a number of other methods for drawing other shapes as well, you can learn about those further below.
       </p>
 
-      <br>
-      <h3>Other Shape Functions</h3>
+      <p>
+        If you try the code above in the editor you'll notice that the circles are drawn anytime you move the mouse, this might be what you want, but typically a drawing app will only leave marks when you press the mouse button down. This is where another one of the core concepts comes in <b>conditional statements</b>
+      </p>
+
+<pre id="conditional-statements"><code class="language-js">if (canvas.mouseDown) {
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let radius = 20
+  canvas.circle(x, y, radius)
+}
+</code></pre>
+
+      <img src="/images/g2.gif" alt="">
+
+      <p>
+        Let's build on that a little more, instead of always making our circles the same size, lets randomly generate the radius value using <code>Math.random()</code>. JavaScript contains a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" target="_blank">Math</a> object which contains calculator-type functions. It includes all sorts of properites, like <code>Math.PI</code> (which returns the value for Pi) and methods like <code>Math.round(x)</code> (which will round any decimal value you pass it). The <code>Math.random()</code> method doesn't take any argument values in it's parenthesis, you simply call it directly and it returns a random number between 0 and 1, for example 0.73671527495. If we set our radius to a value like that, all our circles will be very tiny. So instead, we can "scale" that decimal by multiplying it by another number. In the example below we're scaling that random decimal by 20 which means our circle's radius will now be a random number between 0 and 20 everytime we draw a new circle.
+      </p>
+
+<pre><code class="language-js">if (canvas.mouseDown) {
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let radius = Math.random() * 20
+  canvas.circle(x, y, radius)
+}
+</code></pre>
+
+<img src="/images/g3.gif" alt="">
+
+      <p>
+        Now, what if we wanted to generate a random number between a specific minumum value that isn't 0 and some maxiumum value? Well, now we'd need a more complex equation, say for example we wanted are circle to be no smaller than a 10px radius and no larger than 20px radius. We could start by adding 10: <code>10 + Math.random() * 20</code>, which maintains the original 0-20 range, except shifts it over by 10, so now it's 10-30. So we'll need to subract that same shift amout (10) from the max value (20), something like:<br> <code>min + Math.random() * (max - min)</code> which is way too much to remember. This makes it a great case for "encapsulation" where we package it up and "anbstract" the equation away into a <b>function</b>
+      </p>
+
+<pre id="functions"><code class="language-js">let random = function (min, max) {
+  return min + Math.random() * (max - min)
+}
+</code></pre>
+
+      <p>
+        Above we've made a variable called <code>random</code>, but not one that contains a simple type of data like a number or a string (ie. text). This variable contains a new <b>function</b>, we've used functions already, but this is the first one we're creating ourselves. There is only one line of code in this function, the equation we wrote before for generating a random number between some minimum and maximum range. This is why we declare variables called <code>min</code> and <code>max</code> inside the parenthesis of our function "declaration". This way when we use that funciton (aka "run", aka "call", aka "execute") we can do something like <code>random(10, 20)</code> which then become the values for <code>min</code> and <code>max</code>. When plugged into that function, the answer to that equation becomes the value which this function will <code>return</code>.
+      </p>
+
+      <p>For better or for worse JavaScript let's you write the declaration of a new function a few different ways, you could also do this (which is much more common)...</p>
+
+<pre><code class="language-js">function random (min, max) {
+  return min + Math.random() * (max - min)
+}
+</code></pre>
+
+      <p>Or you could do this (which is far sleaker)...</p>
+
+<pre><code class="language-js">let random = (min, max) => min + Math.random() * (max - min)
+</code></pre>
+
+      <p>
+        These will all return the exact same value, there is no <i>functional</i> difference here. These are all just different ways of expressing the same idea (In programming, there's always more than one way to tell the computer what you want it to do). Now lets try putting it all together (feel free to change the way the function is declared on that first line if you prefer one of the other two styles).
+      </p>
+
+<pre><code class="language-js">let random = (min, max) => min + Math.random() * (max - min)
+
+if (canvas.mouseDown) {
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let radius = random(10, 20) // <= using the new function
+  canvas.circle(x, y, radius)
+}
+</code></pre>
+
+<img src="/images/g4.gif" alt="">
+
+      <p>
+        Here's another thing we could try, instead of erratically changing the size at random, what if we smoothly transitioned from 0 to 20 then back to 0? This is called "oscillating", at the center of oscillations is the <code>Math.sin()</code> function. Given some value (lets call it "delta") which linearly increases over time (from 0 to infinity) it will always return a number from -1 to 1, sliding back and forth between those values. The faster the "delta" number increases the faster the returned value oscillates between -1 and 1, so it's useful to be able to scale that value (ie. multiply it by a decimal) to slow it down: <code>Math.sin(delta * speed)</code>. If we wanted a range larger than -1 to 1 we could multiply the whole thing by some value just like we did before: <code>Math.sin(delta * speed) * range</code>. Now we could get a larger range like -100 to 100, but you can't really see -100 (you can't have a circle with a radius smaller than 0), but we could send that whole equation into a <code>Math.abs()</code> function and get the "absolute value" (meaning it'll always stay positive)."
+      </p>
+
+<pre><code class="language-js">let osc = (delta, speed, range) => Math.abs(Math.sin(delta * speed) * range)</code></pre>
+
+      <p>Now we could try something like this...</p>
+
+<pre><code class="language-js">let osc = (delta, speed, range) => Math.abs(Math.sin(delta * speed) * range)
+
+if (canvas.mouseDown) {
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let radius = osc(x, 0.02, 20) // <= using the new function
+  canvas.circle(x, y, radius)
+}
+</code></pre>
+
+<img src="/images/g5.gif" alt="">
+
+      <br><br>
+      <h3 id="creating-a-filter">Creating a Filter</h3>
+
+      <p>
+        In the introduction to these notes I mentioned that there are 4 central concepts in programming. We've already discussed three of them, variables, functions and conditional statements. Let's now explore the last one <b>loops</b>. There are a few different ways to create loops in JavaScript, but the classics are "while" loops and "for" loops. Let's start with a <code>while</code> loop. The syntax is very similar to conditional statements, except we replace the word "if" with "while." Within the parenthesis again we need something which will return the value "true" or "false", the difference is rather than only running once if it's true, a loop will keep repeating the code inside the curly brace block <code>{ }</code> over and over again until the condition is no longer true.
+      </p>
+
+<pre id="while-loop"><code class="language-js">while (true) {
+  // WARNING: this will loop forever and crash your browser!
+}
+</code></pre>
+
+      <p>
+        So what we need to do is setup a situation where what we pass into the parenthesis will be true at first, but will eventually become false. The trick is creating a variable, for example <code>let i = 0</code> then using "boolean operators" (like greater-than <code>&gt;</code>, less-than <code>&lt;</code> and equal-to <code>===</code>) to ask a question, for example <code>i < 10</code>, at first the answer is "true" because <i>i is 0, and 0 less than 10</i>. Inside our loop we'll need to change the value of "i", if not this loop will run forever (and crash our browser). So we can do something like this: <code>i = i + 1</code>. The first iteration of our loop i is 0, so when we add 1 it becomes 1, which means the next iteration when we add 1 again i now becomes 2, the next iteration it becomes 3, then 4, then 5, 6, 7, 8, 9, 10... and then afer that it will stop looping because <i>10 is not greater than </i>. The example below will draw run 10 times.
+      </p>
+
+<pre><code class="language-js">let i = 0
+while (i < 10) {
+  // this will run 10 times
+  i = i + 1
+}
+</code></pre>
+
+      <p>
+        If we were to use this code in a "tool", we could draw multiple shapes in a single click by calling a shape function inside the loop, though keep in mind, you won't want to call the shapes with the same x,y values because then they'll get drawn on the same spot (and it'll look like we only drew it once). Another thing worth mentioning at this point is that there are shorter ways of writing <code>i = i + 1</code>, we could also write <code>i += 1</code> that does the same thing, it increments the variable by the given amount (in this case 1, but it could be more), and because incrementing by 1 is so common, there's an even shorter way to write that which is <code>i++</code>.
+      </p>
+
+      <p>
+        There is another way to write a loop, instead of "while" we can write <code>for</code>, this is functionally the same, it loops until the condition is "false", the difference is that we take those three statements: the declaration of a variable, the conditional question and the re-assigning (incrementing) of the variable, and we write them all inside the parenthesis, like this...
+      </p>
+
+<pre id="for-loop"><code class="language-js">for (let i = 0; i < 10; i++) {
+  // this will run 10 times
+}
+</code></pre>
+
+
+      <p>
+        So how does this relate to filters? Well, at their core, an image filter is all about modifying the pixels on the screen, taking the number values behind the colors of each and every pixel and adjusting the min some way. In order to access all the pixels we can use <code>canvas.getPixels()</code> this will return an "Array" (or list) of pixels objects. Each pixel object has 4 numbers in it, representing the <code>r</code> (red), <code>g</code> (green), <code>b</code> (blue) and <code>a</code> (alpha) values of that pixel. As explained in more detail in the Color section below, red green and blue are the primary colors of the digital world. Each can be a value between 0 (none) or 255 (max), different combinations of red, green and blue values can create all the colors the light of your computer screen is capable of representing. The last value "alpha" is a little different. This one is a float (or decimal) value between 0 and 1 which represents how transparent or opaque the pixel should be.
+      </p>
+
+      <p>
+        If we store the list of pixels in a variable, let's call it <code>pixels</code> we can access a specific pixel by like this <code>pixels[10]</code>, that will return the r, g, b, a values for the 11th pixel on the screen, because we always start counting from 0, the first pixel would be <code>pixels[0]</code>. One way to create a filter would be to use a <b>for</b> loop to <i>loop through each</i> of the pixels in our array, of course in order to do that we need to know how many pixels are in our array so that we can make sure to stop the loop once our iterator <code>i</code> is no longer less than that amount. Fortunately, array's all have a property called "length" which contains the number of items in that array, so <code>pixels.length</code> will always tell us how many pixels we have on our canvas at that moment, our loop then looks like this...
+      </p>
+
+<pre><code class="language-js">let pixels = canvas.getPixels()
+for (let i = 0; i < pixels.length; i++) {
+  // this will run as many times as there are pixels
+  // passing "i" into the brackets allows us to access each pixel 1 by 1
+  pixels[i]
+}
+</code></pre>
+
+      <p>
+        Now the trick is to modify the value of each pixel somehow as we iterate over all of them in our loop. Then, after we've changed their values somehow, we put our new <code>pixels</code> back on our canvas using <code>canvas.setPixels(pixels)</code>. For example, let's create a "red filter", a filter that removes all the color except for the "red" channel
+      </p>
+
+<pre><code class="language-js">let pixels = canvas.getPixels()
+for (let i = 0; i < pixels.length; i++) {
+  pixels[i].g = 0
+  pixels[i].b = 0
+}
+canvas.setPixels(pixels)
+</code></pre>
+
+<img src="/images/g6.gif" alt="">
+
+      <p>
+        Now let's try something more complex, we'll create a filter that inverts the color. What we'll need to do here is take the maximum value of a pixel (255) and subtract the current value of that pixel, essentially inverting it...
+      </p>
+
+<pre><code class="language-js">let pixels = canvas.getPixels()
+for (let i = 0; i < pixels.length; i++) {
+  pixels[i].r = 255 - pixels[i].r
+  pixels[i].g = 255 - pixels[i].g
+  pixels[i].b = 255 - pixels[i].b
+}
+canvas.setPixels(pixels)
+</code></pre>
+
+<img src="/images/g7.gif" alt="">
+
+      <p>
+        Let's try one more, a black & white filter. What we need to do is convert each pixel into a shade of grey, meaning the red, green and blue channel all need to have the same value, 0, 0, 0 would be black, 255, 255, 255 would be white and everything in between, like 125, 125, 125 would be a shade of grey. So we'll need to get the average value of red, green and blue by adding them together and then dividing the sum by three (so that we can be sure it lands between 0-255) and then reassigning each to that average value...
+      </p>
+
+<pre><code class="language-js">let pixels = canvas.getPixels()
+for (let i = 0; i < pixels.length; i++) {
+  let avg = pixels[i].r + pixels[i].g + pixels[i].b
+  avg = avg / 3
+  pixels[i].r = avg
+  pixels[i].g = avg
+  pixels[i].b = avg
+}
+canvas.setPixels(pixels)
+</code></pre>
+
+<img src="/images/g8.gif" alt="">
+
+
+      <br><br>
+      <h3 id="color">Color</h3>
+
+      <p>
+        When drawing to the canvas, there are two colors we can set, the <code>canvas.fillColor</code> and the <code>canvas.strokeColor</code>, in the tool created above we've been drawing circles where the fill color was grey and the stroke color (the outline) was black. We can change the color using the app's interface, first by selecting which color we want to change (top-left is fill, bottom-right is stroke) and then selecting the color we want from the palette. But we can also programatically change the color in our code.
+      </p>
+
+<pre><code class="language-js">canvas.fillColor = 'pink'
+canvas.strokeColor = 'black'
+</code></pre>
+
+      <p>
+        Not all colors have names, so when we want a very specific color, we use one of two color functions: <code>rgba()</code> or <code>hsla()</code>. The <code>rgba()</code> function takes up to four arguments: red (0–255), green (0–255), blue (0–255), and alpha (0–1). In the digital world, the primary colors are red, green, and blue. By mixing different amounts of these three channels, we can produce every color a screen is capable of displaying. Setting a channel to 0 means no light from that color is added; setting it to 255 means full brightness for that channel. For example, <code>rgba(255, 0, 0, 1)</code> gives you bright red, while <code>rgba(0, 0, 0, 0.5)</code> gives you a semi-transparent black. The example below creates a random color everytime we draw a circle to the canvas...
+      </p>
+
+<pre><code class="language-js">let random = (min, max) => min + Math.random() * (max - min)
+
+if (canvas.mouseDown) {
+  let r = random(0, 255)
+  let g = random(0, 255)
+  let b = random(0, 255)
+  canvas.fillColor = rgba(r, g, b, 1)
+
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let radius = 20
+  canvas.circle(x, y, radius)
+}
+</code></pre>
+
+<img src="/images/g9.gif" alt="">
+
+      <p>
+        The <code>hsla()</code> function works a little differently. It uses hue, saturation, and lightness to describe a color in a more intuitive way, especially for artists and designers. Hue is an angle (0–360) on the color wheel: 0 is red, 120 is green, 240 is blue, and so on. Saturation controls how intense the color is (0 is gray, 100 is full color), and lightness determines how bright or dark it is (0 is black, 100 is white). The fourth value, alpha, works the same way as in <code>rgba()</code>, controlling transparency. The example below uses the mouse's x position to change the hue, which means as we move our mouse from left to right we spin around the color wheel clockwise essentially creating a rainbow effect...
+      </p>
+
+<pre><code class="language-js">
+if (canvas.mouseDown) {
+  let hue = canvas.mouseX
+  canvas.fillColor = hsla(hue, 100, 50, 1)
+
+  let x = canvas.mouseX
+  let y = canvas.mouseY
+  let radius = 20
+  canvas.circle(x, y, radius)
+}
+</code></pre>
+
+<img src="/images/g10.gif" alt="">
+
+      <br><br>
+      <h3 id="shape-functions">Other Shape Functions</h3>
 
       <p>
         <code>canvas.circle(x, y, r)</code> draws a circle to the canvas where "x" and "y" represet the position of the circle on the canvas relative to it's center, and "r" represents the circles radius (distance from it's center to it's edge).
@@ -158,10 +435,10 @@
       <pre><code class="language-js">canvas.rect(220, 10, 100, 100)</code></pre><br>
 
       <p>
-        <code>canvas.triangle(x1, y1, x2, y2, x3, y3)</code> draws a filled triangle connecting three points (x1, y1), (x2, y2), and (x3, y3).
+        <code>canvas.clear(x, y, width, height)</code> erases a rectangle from the canvas where "x" and "y" represent the top-left corner of the area to erase, and "width" and "height" define its size. The example below will erase the entire canvas.
       </p>
 
-      <pre><code class="language-js">canvas.triangle(340, 10, 390, 60, 340, 110)</code></pre><br>
+      <pre><code class="language-js">canvas.clear(0, 0, canvas.width, canvas.height)</code></pre><br>
 
       <p>
         <code>canvas.line(x1, y1, x2, y2)</code> draws a straight line from point (x1, y1) to point (x2, y2).
@@ -169,189 +446,103 @@
 
       <pre><code class="language-js">canvas.line(410, 10, 460, 110)</code></pre><br>
 
+      <p>
+        <code>canvas.triangle(x1, y1, x2, y2, x3, y3)</code> draws a filled triangle connecting three points (x1, y1), (x2, y2), and (x3, y3).
+      </p>
 
+      <pre><code class="language-js">canvas.triangle(340, 10, 390, 60, 340, 110)</code></pre><br>
 
+      <p>
+        <code>canvas.text(str, x, y, type)</code> draws text to the canvas. The "str" argument is the string to render. "x" and "y" specify the position of the text's baseline start point. The optional "type" argument can be either <code>'fill'</code> (default) or <code>'stroke'</code>, determining whether the text is filled or outlined.
+      </p>
 
-<!--
-<h3>Canvas Code Documentation</h3>
+      <pre><code class="language-js">canvas.text('Hello, world!', 100, 150, 'fill')</code></pre>
 
-<p>
-  Below you'll find a list
-</p>
+      <br><br>
+      <h3 id="shape-properties">Shape Properties</h3>
 
-<h2><code>resize(width, height)</code></h2>
-<p>Resizes the canvas to the given dimensions, preserving existing drawing content.</p>
-<pre><code class="language-js">canvas.resize(800, 600)</code></pre>
+      <p>
+        There are a number of way we can change the way the functions above render their shapes. Below are a list of canvas properites (variables inside the <code>canvas</code> object) which you can both "get" and "set", meaning you can check the current value, for example by loggin it <code>log(canvas.lineWidth)</code> or change it by reassigning its value <code>canvas.lineWidth = 5</code>. Some of these only apply to a single function, for example the <code>canvas.font</code> property only effects the <code>canvas.text()</code> function. Others effect multiple functions, for example any shape with a "stroke" (aka outline) will have the thickness of that line altered by <code>canvas.lineWidth</code>. It's important to keep in mind that code runs from top to bottom, if we change the line width it will effect all the shapes drawn after that line, but not before it. We can also change the value multiple times in our code, for example:
+      </p>
 
-<h2><code>width</code> (getter)</h2>
-<p>Returns the current width of the canvas.</p>
-<pre><code class="language-js">window.log(canvas.width)</code></pre>
-
-<h2><code>height</code> (getter)</h2>
-<p>Returns the current height of the canvas.</p>
-<pre><code class="language-js">window.log(canvas.height)</code></pre>
-
-<h2><code>fillColor</code> (get/set)</h2>
-<p>Gets or sets the fill style (CSS color) used for filled shapes.</p>
-<pre><code class="language-js">
-canvas.fillColor = 'lightblue'
-window.log(canvas.fillColor)
-</code></pre>
-
-<h2><code>strokeColor</code> (get/set)</h2>
-<p>Gets or sets the stroke style (CSS color) used for outlines.</p>
-<pre><code class="language-js">
-canvas.strokeColor = 'darkblue'
-window.log(canvas.strokeColor)
-</code></pre>
-
-<h2><code>getPixelData(x, y, w, h)</code></h2>
-<p>Returns the raw RGBA byte array for the specified rectangle. Defaults to the full canvas.</p>
-<pre><code class="language-js">
-const data = canvas.getPixelData(0, 0, 100, 100)
-window.log(data.length) // 100×100×4
-</code></pre>
-
-<h2><code>getPixels()</code></h2>
-<p>Returns an array of <code>{r, g, b, a}</code> objects for every pixel on the canvas.</p>
-<pre><code class="language-js">
-const pixels = canvas.getPixels()
-window.log(pixels[0]) // { r: ..., g: ..., b: ..., a: ... }
-</code></pre>
-
-<h2><code>setPixels(pixels, x, y, w, h)</code></h2>
-<p>Writes an array of <code>{r, g, b, a}</code> pixel objects back to the canvas in the given rectangle.</p>
-<pre><code class="language-js">
-const newPixels = pixels.map(p => ({ ...p, r: 255 }))
-canvas.setPixels(newPixels, 0, 0, 100, 100)
-</code></pre>
-
-<h2><code>ellipse(x, y, w, h)</code></h2>
-<p>Draws a filled and stroked ellipse at <code>(x,y)</code> with radius <code>w</code> (and <code>h</code> if provided).</p>
-<pre><code class="language-js">
-canvas.fillColor = 'pink'
-canvas.strokeColor = 'red'
-canvas.ellipse(150, 75, 50, 30)
-</code></pre>
-
-<h2><code>rect(x, y, w, h)</code></h2>
-<p>Draws a filled and stroked rectangle at <code>(x,y)</code> of size <code>w×h</code>.</p>
-<pre><code class="language-js">
-canvas.fillColor = 'yellow'
-canvas.strokeColor = 'orange'
-canvas.rect(20, 20, 100, 50)
-</code></pre>
-
-<h2><code>line(x1, y1, x2, y2)</code></h2>
-<p>Draws a stroked line from <code>(x1,y1)</code> to <code>(x2,y2)</code>.</p>
-<pre><code class="language-js">
-canvas.lineWidth = 2
-canvas.strokeColor = 'black'
-canvas.line(0, 0, 200, 200)
-</code></pre>
-
-<h2><code>triangle(x1, y1, x2, y2, x3, y3)</code></h2>
-<p>Draws a filled and stroked triangle connecting the three points.</p>
-<pre><code class="language-js">
-canvas.fillColor = 'lightgreen'
-canvas.strokeColor = 'green'
-canvas.triangle(50, 150, 100, 50, 150, 150)
-</code></pre>
-
-<h2><code>lineWidth</code> (get/set)</h2>
-<p>Gets or sets the width of lines and strokes.</p>
-<pre><code class="language-js">
+<pre><code class="language-js">canvas.lineWidth = 1
+canvas.circle(60, 60, 50) // circle's stroke will have a width of 1px
 canvas.lineWidth = 5
-</code></pre>
+canvas.ellipse(160, 60, 20, 40) // ellipse will will have a stroke of 5px
+canvas.rect(220, 10, 100, 100) // rect will also have a 5px stroke
+canvas.triangle(340, 10, 390, 60, 340, 110) // so will this triangle
+canvas.lineWidth = 20
+canvas.line(410, 10, 460, 110) // this line will be 20px thick
+</code></pre><br>
 
-<h2><code>lineCap</code> (get/set)</h2>
-<p>Gets or sets the style of line endings: <code>'butt'</code>, <code>'round'</code> or <code>'square'</code>.</p>
-<pre><code class="language-js">
-canvas.lineCap = 'round'
-</code></pre>
+      <p>
+        <code>canvas.lineWidth</code> gets or sets the width of lines drawn on the canvas. The value must be a number representing the thickness in pixels.
+      </p>
 
-<h2><code>lineJoin</code> (get/set)</h2>
-<p>Gets or sets the style of corners where lines meet: <code>'bevel'</code>, <code>'round'</code> or <code>'miter'</code>.</p>
-<pre><code class="language-js">
-canvas.lineJoin = 'miter'
-</code></pre>
+      <pre><code class="language-js">canvas.lineWidth = 5</code></pre><br>
 
-<h2><code>font</code> (get/set)</h2>
-<p>Gets or sets the font used for text, e.g. <code>'16px sans-serif'</code>.</p>
-<pre><code class="language-js">
-canvas.font = '20px serif'
-</code></pre>
+      <p>
+        <code>canvas.lineCap</code> gets or sets the style of the end caps for lines. Valid values are 'butt', 'round', or 'square'.
+        <div class="flex">
+          <span><img src="/images/butt.png">butt</span>
+          <span><img src="/images/round.png">round</span>
+          <span><img src="/images/square.png">square</span>
+        </div>
+      </p>
 
-<h2><code>textAlign</code> (get/set)</h2>
-<p>Gets or sets horizontal text alignment: <code>'left'</code>, <code>'center'</code>, <code>'right'</code>, etc.</p>
-<pre><code class="language-js">
-canvas.textAlign = 'center'
-</code></pre>
+      <pre><code class="language-js">canvas.lineCap = 'round'</code></pre><br>
 
-<h2><code>textBaseline</code> (get/set)</h2>
-<p>Gets or sets vertical text baseline: <code>'top'</code>, <code>'middle'</code>, <code>'alphabetic'</code>, etc.</p>
-<pre><code class="language-js">
-canvas.textBaseline = 'middle'
-</code></pre>
 
-<h2><code>text(str, x, y, type)</code></h2>
-<p>Draws text at <code>(x,y)</code>. Use <code>type='fill'</code> (default) or <code>'stroke'</code>.</p>
-<pre><code class="language-js">
-canvas.fillColor = 'black'
-canvas.text('Hello World', 100, 100)
-canvas.text('Outlined', 100, 130, 'stroke')
-</code></pre>
+      <p>
+        <code>canvas.lineJoin</code> gets or sets the style of the corners where two lines meet. Valid values are 'bevel', 'round', or 'miter'.
+        <div class="flex">
+          <span><img src="/images/round2.png">round</span>
+          <span><img src="/images/bevel.png">bevel</span>
+          <span><img src="/images/miter.png">miter</span>
+        </div>
+      </p>
 
-<h2><code>save()</code></h2>
-<p>Saves the current drawing state (styles, transforms, etc.).</p>
-<pre><code class="language-js">
-canvas.save()
-// ... do some drawing with different styles ...
-canvas.restore()
-</code></pre>
+      <pre><code class="language-js">canvas.lineJoin = 'miter'</code></pre><br>
 
-<h2><code>restore()</code></h2>
-<p>Restores the last saved state.</p>
-<pre><code class="language-js">
-canvas.restore()
-</code></pre>
+      <p>
+        <code>canvas.font</code> gets or sets the current text style. This must be a valid CSS font string like '16px sans-serif'.
+      </p>
 
-<h2><code>scale(x, y)</code></h2>
-<p>Scales the drawing context by <code>(x,y)</code>.</p>
-<pre><code class="language-js">
-canvas.scale(2, 2) // everything drawn is twice as large
-</code></pre>
+      <pre><code class="language-js">canvas.font = '20px Georgia'</code></pre><br>
+      <p>
+        <code>canvas.textAlign</code> gets or sets the alignment of text relative to the <code>x</code> position. Valid values are 'left', 'right', 'center', 'start', or 'end'.
+      </p>
 
-<h2><code>rotate(angle)</code></h2>
-<p>Rotates the drawing context by <em>radians</em>, e.g. <code>Math.PI/4</code> is 45°.</p>
-<pre><code class="language-js">
-canvas.rotate(Math.PI / 4)
-</code></pre>
+      <pre><code class="language-js">canvas.textAlign = 'center'</code></pre><br>
+      <p>
+        <code>canvas.textBaseline</code> gets or sets the vertical alignment of text. Valid values include 'top', 'hanging', 'middle', 'alphabetic', 'ideographic', and 'bottom'.
+      </p>
 
-<h2><code>translate(x, y)</code></h2>
-<p>Moves the origin of the drawing context by <code>(x,y)</code>.</p>
-<pre><code class="language-js">
-canvas.translate(50, 50)
-</code></pre>
+      <pre><code class="language-js">canvas.textBaseline = 'middle'</code></pre><br>
 
-<h2><code>transform(m11, m12, m21, m22, dx, dy)</code></h2>
-<p>Multiplies the current transform by the given matrix.</p>
-<pre><code class="language-js">
-canvas.transform(1, 0.5, 0, 1, 0, 0)
-</code></pre>
 
-<h2><code>setTransform(m11, m12, m21, m22, dx, dy)</code></h2>
-<p>Replaces the current transform with the given matrix.</p>
-<pre><code class="language-js">
-canvas.setTransform(1, 0, 0, 1, 0, 0) // reset to identity
-</code></pre>
+      <p>
+        <code>canvas.blendMode</code> gets or sets the current compositing mode used when drawing shapes to the canvas. It defines how new drawings interact with the existing pixels. Valid values include:
+        <div class="flex" style="flex-wrap: wrap; gap: 1rem">
+          <span><img src="/images/source-over.png">source-over</span>
+          <span><img src="/images/source-in.png">source-in</span>
+          <span><img src="/images/source-out.png">source-out</span>
+          <span><img src="/images/source-atop.png">source-atop</span>
+          <span><img src="/images/destination-over.png">destination-over</span>
+          <span><img src="/images/destination-in.png">destination-in</span>
+          <span><img src="/images/destination-out.png">destination-out</span>
+          <span><img src="/images/destination-atop.png">destination-atop</span>
+          <span><img src="/images/lighter.png">lighter</span>
+          <span><img src="/images/copy.png">copy</span>
+          <span><img src="/images/xor.png">xor</span>
+        </div>
+      </p>
 
-<h2><code>blendMode</code> (get/set)</h2>
-<p>Gets or sets the global composite operation (blend mode), e.g. <code>'multiply'</code>, <code>'screen'</code>, etc.</p>
-<pre><code class="language-js">
-canvas.blendMode = 'multiply'
-</code></pre>
--->
+      <pre><code class="language-js">canvas.blendMode = 'source-over'</code></pre><br>
+
+      <div style="font-style: italic; opacity: 0.5">
+        image diagrams borrowed from the <a href="https://simon.html5.org/dump/html5-canvas-cheat-sheet.html" target="_blank">HTML5 Canvas Cheat Sheet</a>
+      </div>
 
     </div>
     <script src="js/nn.min.js"></script>

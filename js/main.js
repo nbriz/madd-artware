@@ -90,27 +90,6 @@ function loadMenuModule (type, name) {
   })
 }
 
-function openCustomFilePicker () {
-  return new Promise((resolve, reject) => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = '.tool,.filter'
-    input.style.display = 'none'
-    input.addEventListener('change', function () {
-      if (input.files.length > 0) {
-        const file = input.files[0]
-        const reader = new window.FileReader()
-        reader.onload = function () { resolve(reader.result) }
-        reader.onerror = function () { reject(new Error('Failed to read file')) }
-        reader.readAsText(file)
-      } else reject(new Error('No file selected'))
-      input.remove()
-    })
-    document.body.appendChild(input)
-    input.click()
-  })
-}
-
 function updateColorSelectType (type) {
   nn.get('.old-sch-clr__fillStyle').css({ zIndex: type === 'fill' ? 1 : 0 })
   nn.get('.old-sch-clr__strokeStyle').css({ zIndex: type === 'fill' ? 0 : 1 })
@@ -148,6 +127,8 @@ function loadTool (icon, func, clickOnly) {
     .on('click', (e) => {
       state.toolCode = func
       state.clickOnly = clickOnly
+      canvas.fillColor = nn.get('.old-sch-clr__fillStyle').style.background
+      canvas.strokeColor = nn.get('.old-sch-clr__strokeStyle').style.background
       updateCursorIcon(icon)
     })
     .on('mousedown', (e) => e.target.classList.add('clicked'))
