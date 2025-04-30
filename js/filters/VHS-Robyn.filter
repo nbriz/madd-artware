@@ -1,0 +1,5 @@
+{
+  "name": "VHS",
+  "type": "filter",
+  "function": "let pixels = canvas.getPixels()\n\nfor (let i = 0; i < pixels.length; i++) {\n  let row = Math.floor(i / canvas.width)\n\n  // Gentle desaturation for VHS effect\n  let r = pixels[i].r\n  let g = pixels[i].g\n  let b = pixels[i].b\n  let avg = (r + g + b) / 3\n\n  pixels[i].r = (r + avg) / 2\n  pixels[i].g = (g + avg) / 2\n  pixels[i].b = (b + avg) / 2\n\n  // Slight horizontal color shift (wavy VHS effect)\n  let shift = Math.sin(row * 0.05) * 10\n  if (i + shift < pixels.length && i + shift >= 0) {\n    pixels[i].r = pixels[i].r\n    pixels[i].g = pixels[i + Math.floor(shift)]?.g || pixels[i].g\n    pixels[i].b = pixels[i + Math.floor(shift)]?.b || pixels[i].b\n  }\n\n  // Subtle horizontal flicker bands\n  if (row % 60 < 4) {\n    pixels[i].r *= 0.95\n    pixels[i].g *= 0.95\n    pixels[i].b *= 1.05\n  }\n\n  // Tiny random static specks\n  if (Math.random() < 0.005) {\n    let n = Math.random() * 80\n    pixels[i].r += n\n    pixels[i].g += n\n    pixels[i].b += n\n  }\n}\n\ncanvas.setPixels(pixels)\n"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "sunset",
+  "type": "filter",
+  "function": "let pixels = canvas.getPixels()\n\nfor (let i = 0; i < pixels.length; i++) {\n  pixels[i].r = Math.min(pixels[i].r + 30, 255)\n  pixels[i].b = Math.max(pixels[i].b - 20, 0)\n}\n\ncanvas.setPixels(pixels)"
+}

@@ -4,9 +4,9 @@ window.menu = { File: {}, Filter: {}, Learn: {}, Code: {} }
 
 const modules = {
   filefuncs: ['new', 'open', 'save', 'restart'],
-  filters: ['invert'],
+  filters: ['invert', 'VHS-Robyn', 'sunset-mark'],
   learn: ['artware', 'docs'],
-  tools: ['fill', 'pencil'],
+  tools: ['fill', 'pencil', 'error-Isaac', 'Confetti-Tiffany', 'Jolin', 'Rainbow_2-Ryan', 'redyellow-tanish', 'Madd-Thibaud', 'Madd2-Sasha', 'tool-Wenlan', 'Random-Ellipse-Tool-Burhan', 'TickMaster-Michael', 'Sketch-Olivia', 'Balls-Ishan', 'eraser-rivka', 'stars!-rivka', 'xor-rect-pen-mark'],
   codefuncs: ['new-file', 'load-code']
 }
 
@@ -35,6 +35,7 @@ window.hsla = function (h = 0, s = 100, l = 50, a = 1) {
 }
 
 window.log = function (...args) {
+  if (!ne) return
   netitorReset()
   const nnlnk = '<a href="https://netnet.studio" target="_blank" id="nn-link">(◠ . ◠)</a> ⮕ '
   const output = args
@@ -43,7 +44,7 @@ window.log = function (...args) {
       : String(arg))
     .join(', ')
   nn.get('#tool-info').content(nnlnk + output).css('color', 'black')
-  if (nn.get('#editor').style.display === 'block') ne.spotlight('clear')
+  if (nn.get('#editor').style.display === 'block' && ne) ne.spotlight('clear')
 }
 
 // .....................
@@ -152,12 +153,14 @@ function openIconMaker () {
 }
 
 function netitorReset () {
+  if (!ne) return
   const nnlnk = '<a href="https://netnet.studio" target="_blank" id="nn-link">(◕ ◞ ◕)</a>'
   nn.get('#tool-info').content(nnlnk).css('color', 'black')
   if (nn.get('#editor').style.display === 'block') ne.spotlight('clear')
 }
 
 function markErrors (eve) {
+  if (!ne) return
   const explainError = (err, cnslErr) => {
     if (nn.get('#editor').style.display === 'block') ne.spotlight(err.line)
     const nnlnk = cnslErr
