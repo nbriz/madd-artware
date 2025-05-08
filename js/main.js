@@ -6,7 +6,7 @@ const modules = {
   filefuncs: ['new', 'open', 'save', 'restart'],
   filters: ['invert', 'VHS-Robyn', 'sunset-mark'],
   learn: ['artware', 'docs'],
-  tools: ['fill', 'pencil', 'error-Isaac', 'Confetti-Tiffany', 'Jolin', 'Rainbow_2-Ryan', 'redyellow-tanish', 'Madd-Thibaud', 'Madd2-Sasha', 'tool-Wenlan', 'Random-Ellipse-Tool-Burhan', 'TickMaster-Michael', 'Sketch-Olivia', 'Balls-Ishan', 'eraser-rivka', 'stars!-rivka', 'xor-rect-pen-mark'],
+  tools: ['fill', 'pencil', 'error-Isaac', 'Confetti-Tiffany', 'Jolin', 'Rainbow_2-Ryan', 'redyellow-tanish', 'Madd-Thibaud', 'Madd2-Sasha', 'tool-Wenlan', 'Random-Ellipse-Tool-Burhan', 'TickMaster-Michael', 'Sketch-Olivia', 'Balls-Ishan', 'eraser-rivka', 'stars!-rivka', 'xor-rect-pen-mark', 'pink hearts-maryam'],
   codefuncs: ['new-file', 'load-code']
 }
 
