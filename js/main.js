@@ -76,7 +76,8 @@ function loadMenuModule (type, name) {
     }).then(data => {
       loading(type, name)
       const obj = JSON.parse(data)
-      if (type === 'tools') loadTool(obj.icon, obj.function, obj.click)
+      const t = `${obj.name} by ${obj.credit}`
+      if (type === 'tools') loadTool(obj.icon, obj.function, obj.click, t)
       else if (type === 'filters') {
         window.menu.Filter[obj.name] = function () { runCode(obj.function) }
       }
@@ -121,9 +122,9 @@ function updateCursorIcon (base64) {
   img.src = base64
 }
 
-function loadTool (icon, func, clickOnly) {
+function loadTool (icon, func, clickOnly, title) {
   nn.create('img')
-    .set({ src: icon, alt: clickOnly ? 'click-only' : '' })
+    .set({ src: icon, alt: clickOnly ? 'click-only' : '', title })
     .addTo('#tool-bar')
     .on('click', (e) => {
       state.toolCode = func
