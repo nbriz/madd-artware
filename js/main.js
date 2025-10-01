@@ -3,7 +3,7 @@ var canvas, ne, iconmaker
 window.menu = { File: {}, Filter: {}, Learn: {}, Code: {} }
 
 const modules = {
-  filefuncs: ['new', 'open', 'save', 'restart'],
+  filefuncs: ['new', 'open', 'save', 'restart', 'demo'],
   filters: ['invert', 'VHS-Robyn', 'sunset-mark'],
   learn: ['artware', 'docs'],
   tools: ['fill', 'pencil', 'error-Isaac', 'Confetti-Tiffany', 'Jolin', 'Rainbow_2-Ryan', 'redyellow-tanish', 'Madd-Thibaud', 'Madd2-Sasha', 'tool-Wenlan', 'Random-Ellipse-Tool-Burhan', 'TickMaster-Michael', 'Sketch-Olivia', 'Balls-Ishan', 'eraser-rivka', 'stars!-rivka', 'xor-rect-pen-mark', 'pink hearts-maryam'],
